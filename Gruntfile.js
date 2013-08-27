@@ -1,55 +1,64 @@
 /*global module:false*/
 module.exports = function(grunt) {
 
+  require('matchdep').filterAll('grunt-*').forEach(grunt.loadNpmTasks);
+
   // Project configuration.
   grunt.initConfig({
-    // Task configuration.
+
+
+    pkg: grunt.file.readJSON('package.json'),
+
     jshint: {
       options: {
-        curly: true,
-        eqeqeq: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        unused: true,
-        boss: true,
-        eqnull: true,
-        browser: true,
-        globals: {
-          jQuery: true
-        }
+        curly: true
       },
       gruntfile: {
         src: 'Gruntfile.js'
-      },
-      lib_test: {
-        src: ['lib/**/*.js', 'test/**/*.js']
       }
     },
-    qunit: {
-      files: ['test/**/*.html']
-    },
+
     watch: {
-      gruntfile: {
-        files: '<%= jshint.gruntfile.src %>',
-        tasks: ['jshint:gruntfile']
+      options: {
+        interval: 5007
       },
-      lib_test: {
-        files: '<%= jshint.lib_test.src %>',
-        tasks: ['jshint:lib_test', 'qunit']
-      }
-    }
+
+      scripts: {
+        files: [
+          'js/**/*.js'
+        ],
+        tasks: [
+          'scripts:dev', 'notify:complete'
+        ]
+      },
+    },
+
+    // server
+    connect: {
+      server: {
+        options: {
+          port: 8000,
+          base: 'dist',
+          hostname: 'localhost'
+        }
+      },
+      proxies: [
+                {
+                    context: '/cortex',
+                    host: '0.0.0.0',
+                    port: 9292,
+                    https: false,
+                    changeOrigin: false
+                }
+      ]
+    },
   });
 
   // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'qunit']);
+  grunt.registerTask('default', ['jshint', 'connect:server', 'watch']);
 
 };
