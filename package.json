@@ -1,0 +1,22 @@
+{
+  "name": "Grunt-Backbone",
+  "version": "0.1.0",
+  "description": "Boilerplate Grunt and Backbone",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-connect": "~0.3.0",
+    "grunt-connect-proxy": "latest",
+    "grunt-sass": "~0.6.1",
+    "matchdep": "~0.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mulderp/backbone-basic.git"
+  },
+  "keywords": [
+    "backbone"
+  ],
+  "author": "Patrick Mulder",
+  "license": "BSD",
+  "readmeFilename": "readme.md"
+}
